@@ -16,15 +16,16 @@
 import networkx as nx
 import dimod
 # TODO:  Import your sampler
+from dwave.system import LeapHybridSampler
 
 # TODO:  Import your Traveling Salesperson QUBO generator
-
+from dwave_networkx import traveling_salesperson_qubo
 
 def get_qubo(G, lagrange, n):
     """Returns a dictionary representing a QUBO"""
 
     # TODO:  Add QUBO construction here
-
+    Q = traveling_salesperson_qubo(G, lagrange)
     offset = 2 * n * lagrange
 
     return Q, offset
@@ -35,7 +36,7 @@ def get_sampler():
 
     # TODO: Enter your sampler here
 
-
+    sampler = LeapHybridSampler()
 
     return sampler
 
@@ -62,13 +63,13 @@ if __name__ == "__main__":
         (2, 4, 773),
         (2, 5, 424),
         (2, 6, 644),
-	(3, 4, 302),
-	(3, 5, 341),
-	(3, 6, 1027),
-	(4, 5, 368),
-	(4, 6, 916),
-	(5, 6, 702)
-    ])
+	    (3, 4, 302),
+	    (3, 5, 341),
+	    (3, 6, 1027),
+	    (4, 5, 368),
+	    (4, 6, 916),
+	    (5, 6, 702)
+        ])
     Q, offset = get_qubo(G, lagrange, n)
     sampler = get_sampler()
     bqm = dimod.BinaryQuadraticModel.from_qubo(Q, offset=offset)
